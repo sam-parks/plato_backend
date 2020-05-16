@@ -1,0 +1,25 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "NodeJs backend for Plato.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "author": "Sam Parks",
+  "license": "ISC",
+  "dependencies": {
+    "@okta/oidc-middleware": "^2.1.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "express-session": "^1.16.2",
+    "jsonwebtoken": "^8.5.1",
+    "jwt-authentication": "^0.4.0",
+    "njwt": "^1.0.0",
+    "nnode": "^0.3.3",
+    "web3": "^1.2.7"
+  }
+}
