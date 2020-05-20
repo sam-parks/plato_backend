@@ -1,36 +1,48 @@
 const express = require('express');
+const {getAccounts} = require('./eth.js');
 const router = express.Router();
-
-var Web3 = require('web3');
-const web3 = new Web3(Web3.givenProvider || 'ws://localhost:7545');
+const url = 'http://localhost:7545'
+let ethers = require('ethers');
+let provider = new ethers.providers.JsonRpcProvider(url);
 const {tokenAbi, tokenSaleAbi} = require('../abi/abis');
 
-const tokenContractAddr = '0x674f217D9729845dc8e6DE394bB63a52b78EbFa8';
-const TokenContract = new web3.eth.Contract(tokenAbi, tokenContractAddr);
-const tokenSaleContractAddr = '0x936bEaE9e6693a6A0beEb1fCc6E86e2d81938069';
-const TokenSaleContract =
-    new web3.eth.Contract(tokenSaleAbi, tokenSaleContractAddr);
+const PLATO_TOKEN_ADDRESS = '0xC05EB4B93351770eC2c966000C49CF31415f527D';
+let userWallet;
+let TokenContract;
 
 
-var tokenEvents = TokenContract.events.allEvents((error, events) => {
-  console.log(events);
-});
+// We connect to the Contract using a Provider, so we will only
+// have read-only access to the Contract
+const TokenReadOnlyContract =
+    new ethers.Contract(PLATO_TOKEN_ADDRESS, tokenAbi, provider);
 
 
 
 router.get('/totalSupply', async function(req, res) {
-  getTokenSupply().then((totalSupply) => {
-    res.statusCode = statusOK;
-    res.send(totalSupply);
-  })
+  let totalSupply = await TokenReadOnlyContract.totalSupply();
+  console.log(totalSupply);
+  res.send(totalSupply);
+});
+
+
+router.post('/userWallet', (req, res, next) => {
+  userWallet = req.body
+  TokenContract =
+      new ethers.Contract(PLATO_TOKEN_ADDRESS, tokenAbi, userWallet);
 });
 
 
 
-async function getTokenSupply() {
-  const result = await TokenContract.methods.totalSupply().call();
-  return result;
-}
+router.get('/balances', async function(req, res) {
+  let etherBalance = await TokenContract.balanceOf(userWallet.address);
+  res.send(etherBalance);
+});
+
+
+
+// http status codes
+const statusOK = 200;
+const statusNotFound = 404;
 
 
 

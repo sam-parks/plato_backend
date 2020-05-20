@@ -20,11 +20,6 @@ app.use('/api/eth', eth);
 const hostname = '127.0.0.1';
 const port = 3000;
 
-// http status codes
-const statusOK = 200;
-const statusNotFound = 404;
-
-
 app.listen(port, hostname, function() {
   console.log(`Listening at http://${hostname}:${port}/...`);
 });
