@@ -1,8 +1,10 @@
 const express = require('express');
 const {getAccounts} = require('./eth.js');
 const router = express.Router();
-const url = 'http://localhost:7545'
+let bigInt = require('big-integer');
 let ethers = require('ethers');
+
+const url = 'http://localhost:7545'
 let provider = new ethers.providers.JsonRpcProvider(url);
 const {tokenAbi, tokenSaleAbi} = require('../abi/abis');
 
@@ -20,9 +22,20 @@ const TokenReadOnlyContract =
 
 router.get('/totalSupply', async function(req, res) {
   let totalSupply = await TokenReadOnlyContract.totalSupply();
+
   console.log(totalSupply);
+
   res.send(totalSupply);
 });
+
+router.get('/symbol', async function(req, res) {
+  let symbol = await TokenReadOnlyContract.symbol();
+
+  console.log(symbol);
+
+  res.send(symbol);
+});
+
 
 
 router.post('/userWallet', (req, res, next) => {
