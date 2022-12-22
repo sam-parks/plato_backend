@@ -19,7 +19,7 @@
     "ethers": "^4.0.47",
     "express": "^4.17.1",
     "express-session": "^1.16.2",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "jwt-authentication": "^0.4.0",
     "njwt": "^1.0.0",
     "nnode": "^0.3.3",
